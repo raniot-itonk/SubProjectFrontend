@@ -7,6 +7,7 @@ namespace Frontend.Models
     {
         public long Id { get; set; }
         public DateTime Purchased { get; set; }
+        public long CraftsmanId { get; set; }
         public Craftsman Craftsman { get; set; }
         public string Color { get; set; }
         public string Model { get; set; }

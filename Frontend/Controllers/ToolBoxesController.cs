@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Frontend.Models;
@@ -15,7 +16,7 @@ namespace Frontend.Controllers
         {
             const string url = BaseUrl;
             var toolBoxes = await url.GetJsonAsync<List<ToolBox>>();
-            return View(toolBoxes);
+            return View( "Index",toolBoxes);
         }
 
         // GET: ToolBoxes1/Details/5
@@ -33,8 +34,11 @@ namespace Frontend.Controllers
         }
 
         // GET: ToolBoxes1/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var url = "https://localhost:5003/api/Craftsmen";
+            var craftsmen = await url.GetJsonAsync<List<Craftsman>>();
+            ViewBag.craftsmen = craftsmen;
             return View();
         }
 
@@ -43,12 +47,16 @@ namespace Frontend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Purchased,Color,Model,SerialNumber")] ToolBox toolBox)
+        public async Task<IActionResult> Create([Bind("Id,CraftsmanId,Purchased,Color,Model,SerialNumber")] ToolBox toolBox)
         {
-            if (!ModelState.IsValid) return View(toolBox);
+            //if (!ModelState.IsValid) return View(toolBoxViewModel);
+            //var id = toolBoxViewModel.CraftsmanId;
+            //var urlC = $"https://localhost:5003/api/Craftsmen/{id}";
+            //var craftsman = await urlC.GetJsonAsync<Craftsman>();
+            //var toolBox = ToolBoxViewModel.Cast(toolBoxViewModel, craftsman);
             var url = BaseUrl;
             await url.PostJsonAsync(toolBox);
-            return View(toolBox);
+            return await Index();
         }
 
         // GET: ToolBoxes1/Edit/5

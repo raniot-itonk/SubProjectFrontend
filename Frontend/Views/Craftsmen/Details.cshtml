@@ -10,30 +10,119 @@
     <h4>Craftsman</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DateOfEmployment)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DateOfEmployment)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.LastName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.SubjectArea)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SubjectArea)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
+    </dl>
+    <dl class="coll">
+    @{
+
+        foreach (var toolBox in @Model.ToolBoxes)
+        {
+        <dt class="font-weight-bold">
+            @Html.DisplayName("ToolBox")
+        </dt>
+        <dd class="col-sm-12">
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => toolBox.Purchased)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => toolBox.Purchased)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => toolBox.Color)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => toolBox.Color)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => toolBox.Model)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => toolBox.Model)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => toolBox.SerialNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => toolBox.SerialNumber)
+        </dd>
+            <dt class="font-weight-bold">
+                @Html.DisplayName("Tools")
+            </dt>
+            <dd class="col-sm-12">
+            </dd>
+            foreach (var tool in toolBox.Tools)
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => tool.Purchased)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => tool.Product)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => tool.Model)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => tool.SerialNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => tool.Type)
+                        </th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in toolBox.Tools) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Purchased)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SerialNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+
+        }
+
+    }
     </dl>
 </div>
 <div>
