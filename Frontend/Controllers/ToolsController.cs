@@ -15,7 +15,7 @@ namespace Frontend.Controllers
         {
             const string url = BaseUrl;
             var tools = await url.GetJsonAsync<List<Tool>>();
-            return View(tools);
+            return View("Index" ,tools);
         }
 
         // GET: Tools1/Details/5
@@ -32,8 +32,11 @@ namespace Frontend.Controllers
         }
 
         // GET: Tools1/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var url = "https://localhost:5003/api/ToolBoxes";
+            var toolBoxes = await url.GetJsonAsync<List<ToolBox>>();
+            ViewBag.toolBoxes = toolBoxes;
             return View();
         }
 
@@ -42,12 +45,12 @@ namespace Frontend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Purchased,Product,Model,SerialNumber,Type")] Tool tool)
+        public async Task<IActionResult> Create([Bind("Id,ToolBoxId,Purchased,Product,Model,SerialNumber,Type")] Tool tool)
         {
-            if (!ModelState.IsValid) return View(tool);
+            //if (!ModelState.IsValid) return View(tool);
             var url = BaseUrl;
             await url.PostJsonAsync(tool);
-            return View(tool);
+            return await Index();
         }
 
         // GET: Tools1/Edit/5

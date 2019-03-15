@@ -10,6 +10,7 @@ namespace Frontend.Models
         public string Model { get; set; }
         public string SerialNumber { get; set; }
         public string Type { get; set; }
+        public long ToolBoxId { get; set; }
         public ToolBox ToolBox { get; set; }
     }
 }

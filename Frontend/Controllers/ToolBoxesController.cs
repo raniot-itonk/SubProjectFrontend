@@ -49,11 +49,6 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CraftsmanId,Purchased,Color,Model,SerialNumber")] ToolBox toolBox)
         {
-            //if (!ModelState.IsValid) return View(toolBoxViewModel);
-            //var id = toolBoxViewModel.CraftsmanId;
-            //var urlC = $"https://localhost:5003/api/Craftsmen/{id}";
-            //var craftsman = await urlC.GetJsonAsync<Craftsman>();
-            //var toolBox = ToolBoxViewModel.Cast(toolBoxViewModel, craftsman);
             var url = BaseUrl;
             await url.PostJsonAsync(toolBox);
             return await Index();

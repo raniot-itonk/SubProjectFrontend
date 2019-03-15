@@ -73,8 +73,9 @@
             </dt>
             <dd class="col-sm-12">
             </dd>
-            foreach (var tool in toolBox.Tools)
+            if (toolBox.Tools.Count != 0)
             {
+                var tool = toolBox.Tools.First();
                 <table class="table">
                     <thead>
                     <tr>
