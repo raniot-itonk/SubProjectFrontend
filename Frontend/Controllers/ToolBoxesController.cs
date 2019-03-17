@@ -10,10 +10,12 @@ namespace Frontend.Controllers
     public class ToolBoxesController : Controller
     {
         private readonly string _baseUrl;
+        private string _baseCraftsmenUrl;
 
         public ToolBoxesController(IHostingEnvironment env)
         {
             _baseUrl = env.IsDevelopment() ? "https://localhost:5003/api/ToolBoxes" : "http://g6backend/api/ToolBoxes";
+            _baseCraftsmenUrl = env.IsDevelopment() ? "https://localhost:5003/api/Craftsmen" : "http://g6backend/api/Craftsmen";
         }
 
         // GET: ToolBoxes1
@@ -41,7 +43,7 @@ namespace Frontend.Controllers
         // GET: ToolBoxes1/Create
         public async Task<IActionResult> Create()
         {
-            var url = "https://localhost:5003/api/Craftsmen";
+            var url = _baseCraftsmenUrl;
             var craftsmen = await url.GetJsonAsync<List<Craftsman>>();
             ViewBag.craftsmen = craftsmen;
             return View();
