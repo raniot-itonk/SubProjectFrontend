@@ -13,6 +13,14 @@ spec:
       containers:
       - name: g6frontend
         image: raniotitonk/subproject-frontend
+        resources:
+          limits:
+            cpu: "0.5"
+          requests:
+            cpu: "50m"
+        args:
+        - -cpus
+        - "1"
         ports:
         - containerPort: 80
         env:
@@ -30,4 +38,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: ClusterIP
+  type: LoadBalancer
