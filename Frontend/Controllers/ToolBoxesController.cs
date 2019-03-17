@@ -1,20 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Frontend.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Frontend.Controllers
 {
     public class ToolBoxesController : Controller
     {
-        private const string BaseUrl = "https://localhost:5003/api/ToolBoxes";
+        private readonly string _baseUrl;
+
+        public ToolBoxesController(IHostingEnvironment env)
+        {
+            _baseUrl = env.IsDevelopment() ? "https://localhost:5003/api/ToolBoxes" : "http://g6backend/api/ToolBoxes";
+        }
+
         // GET: ToolBoxes1
         public async Task<IActionResult> Index()
         {
-            const string url = BaseUrl;
+            var url = _baseUrl;
             var toolBoxes = await url.GetJsonAsync<List<ToolBox>>();
             return View( "Index",toolBoxes);
         }
@@ -27,7 +32,7 @@ namespace Frontend.Controllers
                 return NotFound();
             }
 
-            var url = $"{BaseUrl}/{id}";
+            var url = $"{_baseUrl}/{id}";
             var toolBox = await url.GetJsonAsync<ToolBox>();
 
             return View(toolBox);
@@ -49,7 +54,7 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CraftsmanId,Purchased,Color,Model,SerialNumber")] ToolBox toolBox)
         {
-            var url = BaseUrl;
+            var url = _baseUrl;
             await url.PostJsonAsync(toolBox);
             return await Index();
         }
@@ -62,7 +67,7 @@ namespace Frontend.Controllers
                 return NotFound();
             }
 
-            var url = $"{BaseUrl}/{id}";
+            var url = $"{_baseUrl}/{id}";
             var toolBox = await url.GetJsonAsync<ToolBox>();
 
             return View(toolBox);
@@ -86,7 +91,7 @@ namespace Frontend.Controllers
                 {
                     return NotFound();
                 }
-                var url = $"{BaseUrl}/{id}";
+                var url = $"{_baseUrl}/{id}";
                 await url.PutJsonAsync(toolBox);
             }
             return RedirectToAction(nameof(Index));
@@ -100,7 +105,7 @@ namespace Frontend.Controllers
                 return NotFound();
             }
 
-            var url = $"{BaseUrl}/{id}";
+            var url = $"{_baseUrl}/{id}";
             var toolBox = await url.GetJsonAsync<ToolBox>();
 
             return View(toolBox);
@@ -111,7 +116,7 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var url = $"{BaseUrl}/{id}";
+            var url = $"{_baseUrl}/{id}";
             await url.DeleteAsync();
             return RedirectToAction(nameof(Index));
         }

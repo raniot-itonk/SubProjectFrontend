@@ -2,18 +2,25 @@
 using System.Threading.Tasks;
 using Flurl.Http;
 using Frontend.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Frontend.Controllers
 {
     public class CraftsmenController : Controller
     {
-        private const string url = "https://localhost:5003/api/Craftsmen";
+        private readonly string _baseUrl;
+
+        public CraftsmenController(IHostingEnvironment env)
+        {
+            _baseUrl = env.IsDevelopment() ? "https://localhost:5003/api/Craftsmen" : "http://g6backend/api/Craftsmen";
+        }
+
         // GET: Craftsmen1
         public async Task<IActionResult> Index()
         {
-            const string httpsLocalhostApiCraftsmen = url;
-            var craftsmen = await httpsLocalhostApiCraftsmen.GetJsonAsync<List<Craftsman>>();
+            var url = _baseUrl;
+            var craftsmen = await url.GetJsonAsync<List<Craftsman>>();
             return View(craftsmen);
         }
 
@@ -24,8 +31,8 @@ namespace Frontend.Controllers
             {
                 return NotFound();
             }
-            var httpsLocalhostApiCraftsmen = $"{url}/{id}";
-            var craftsman = await httpsLocalhostApiCraftsmen.GetJsonAsync<Craftsman>();
+            var url = $"{_baseUrl}/{id}";
+            var craftsman = await url.GetJsonAsync<Craftsman>();
 
             return View(craftsman);
         }
@@ -44,8 +51,8 @@ namespace Frontend.Controllers
         public async Task<IActionResult> Create([Bind("Id,DateOfEmployment,LastName,SubjectArea,FirstName")] Craftsman craftsman)
         {
             if (!ModelState.IsValid) return View(craftsman);
-            var httpsLocalhostApiCraftsmen = url;
-            await httpsLocalhostApiCraftsmen.PostJsonAsync(craftsman);
+            var url = _baseUrl;
+            await url.PostJsonAsync(craftsman);
             return View(craftsman);
         }
 
@@ -56,8 +63,8 @@ namespace Frontend.Controllers
             {
                 return NotFound();
             }
-            var httpsLocalhostApiCraftsmen = $"{url}/{id}";
-            var craftsman = await httpsLocalhostApiCraftsmen.GetJsonAsync<Craftsman>();
+            var url = $"{_baseUrl}/{id}";
+            var craftsman = await url.GetJsonAsync<Craftsman>();
 
             return View(craftsman);
         }
@@ -79,8 +86,8 @@ namespace Frontend.Controllers
                 {
                     return NotFound();
                 }
-                var httpsLocalhostApiCraftsmen = $"{url}/{id}";
-                await httpsLocalhostApiCraftsmen.PutJsonAsync(craftsman);
+                var url = $"{_baseUrl}/{id}";
+                await url.PutJsonAsync(craftsman);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -92,8 +99,8 @@ namespace Frontend.Controllers
             {
                 return NotFound();
             }
-            var httpsLocalhostApiCraftsmen = $"{url}/{id}";
-            var craftsman = await httpsLocalhostApiCraftsmen.GetJsonAsync<Craftsman>();
+            var url = $"{_baseUrl}/{id}";
+            var craftsman = await url.GetJsonAsync<Craftsman>();
 
             return View(craftsman);
         }
@@ -103,8 +110,8 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var httpsLocalhostApiCraftsmen = $"{url}/{id}";
-            await httpsLocalhostApiCraftsmen.DeleteAsync();
+            var url = $"{_baseUrl}/{id}";
+            await url.DeleteAsync();
             return RedirectToAction(nameof(Index));
         }
     }
