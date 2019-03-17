@@ -56,6 +56,7 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CraftsmanId,Purchased,Color,Model,SerialNumber")] ToolBox toolBox)
         {
+            if (!ModelState.IsValid) return View(toolBox);
             var url = _baseUrl;
             await url.PostJsonAsync(toolBox);
             return await Index();

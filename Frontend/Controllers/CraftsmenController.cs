@@ -21,7 +21,7 @@ namespace Frontend.Controllers
         {
             var url = _baseUrl;
             var craftsmen = await url.GetJsonAsync<List<Craftsman>>();
-            return View(craftsmen);
+            return View("Index", craftsmen);
         }
 
         // GET: Craftsmen1/Details/5
@@ -53,7 +53,7 @@ namespace Frontend.Controllers
             if (!ModelState.IsValid) return View(craftsman);
             var url = _baseUrl;
             await url.PostJsonAsync(craftsman);
-            return View(craftsman);
+            return await Index();
         }
 
         // GET: Craftsmen1/Edit/5
